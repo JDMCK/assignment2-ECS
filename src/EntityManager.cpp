@@ -2,19 +2,19 @@
 
 void EntityManager::update()
 {
+    auto entityPredicate = [](const std::shared_ptr<Entity>& e) -> bool { return !e->isAlive(); };
+    m_entities.erase(std::remove_if(m_entities.begin(), m_entities.end(), entityPredicate), m_entities.end());
+    for (auto& pair : m_entityMap)
+    {
+        pair.second.erase(std::remove_if(pair.second.begin(), pair.second.end(), entityPredicate), pair.second.end());
+    }
+
     for (std::shared_ptr<Entity> e :  m_toAdd)
     {
         m_entities.push_back(e);
         m_entityMap[e->tag()].push_back(e);
     }
-    auto entityPredicate = [](const std::shared_ptr<Entity>& e) -> bool { return !e->isAlive(); };
-    m_entities.erase(std::remove_if(m_entities.begin(), m_entities.end(), entityPredicate), m_entities.end());
     m_toAdd.clear();
-
-    for (auto& pair : m_entityMap)
-    {
-        pair.second.erase(std::remove_if(pair.second.begin(), pair.second.end(), entityPredicate), pair.second.end());
-    }
 }
 
 std::shared_ptr<Entity> EntityManager::addEntity(const Tag tag)
@@ -49,7 +49,7 @@ EntityVec& EntityManager::getEntities()
     return m_entities;
 }
 
-EntityVec& EntityManager::getEntities(const Tag tag)
+EntityVec& EntityManager::getEntitiesByTag(const Tag tag)
 {
     return m_entityMap[tag];
 }

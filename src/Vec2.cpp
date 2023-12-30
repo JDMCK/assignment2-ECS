@@ -2,7 +2,7 @@
 
 const Vec2 Vec2::UP(0, -1);
 const Vec2 Vec2::DOWN(0, 1);
-const Vec2 Vec2::LEFT(-1, 1);
+const Vec2 Vec2::LEFT(-1, 0);
 const Vec2 Vec2::RIGHT(1, 0);
 const Vec2 Vec2::ZERO(0, 0);
 
@@ -68,6 +68,11 @@ float Vec2::dist(const Vec2& rhs) const
     return sqrt((x - rhs.x) * (x - rhs.x) + (y - rhs.y) * (y - rhs.y));
 }
 
+float Vec2::dot(const Vec2& rhs) const
+{
+    return x * rhs.x + y * rhs.y;
+}
+
 float Vec2::length() const
 {
     return sqrt(x * x + y * y);
@@ -93,13 +98,26 @@ Vec2& Vec2::scale(const float value)
 
 Vec2& Vec2::rotate(const float angle)
 {
-    float cos_angle = cosf(angle);
-    float sin_angle = sinf(angle);
+    float radians = angle / 57.29578;
+    float cos_angle = cosf(radians);
+    float sin_angle = sinf(radians);
 
     float x2 = x * cos_angle - y * sin_angle;
     float y2 = x * sin_angle + y * cos_angle;
     x = x2;
     y = y2;
+    return *this;
+}
+
+Vec2& Vec2::flipX()
+{
+    x *= -1;
+    return *this;
+}
+
+Vec2& Vec2::flipY()
+{
+    y *= -1;
     return *this;
 }
 

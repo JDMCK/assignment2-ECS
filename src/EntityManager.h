@@ -20,5 +20,5 @@ public:
     void removeEntity(const size_t id);
     void removeEntitiesByTag(const Tag tag);
     EntityVec& getEntities();
-    EntityVec& getEntities(const Tag tag);    
+    EntityVec& getEntitiesByTag(const Tag tag);    
 };

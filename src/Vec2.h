@@ -35,11 +35,14 @@ public:
     void operator /= (const float value);
 
     float dist(const Vec2& rhs) const;
+    float dot(const Vec2& rhs) const;
     float length() const;
 
     Vec2& normalize();
     Vec2& scale(const float value);
     Vec2& rotate(const float angle);
+    Vec2& flipX();
+    Vec2& flipY();
 
     friend std::ostream& operator << (std::ostream& os, const Vec2& v);
 };
